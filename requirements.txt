@@ -1,0 +1,34 @@
+# Azure OpenAI
+openai>=1.50.0
+
+# Image processing
+pillow>=10.0.0
+pillow-heif>=0.18.0
+
+# Data models and validation
+pydantic>=2.8.0
+
+# Async and parallel processing
+asyncio-throttle>=1.0.0
+aiohttp>=3.9.0
+
+# Retry logic
+tenacity>=8.2.0
+
+# Progress tracking
+tqdm>=4.66.0
+
+# Data export
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-mock>=3.12.0
+
+# Type checking (development)
+mypy>=1.8.0
