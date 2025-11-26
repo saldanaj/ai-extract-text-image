@@ -1,11 +1,14 @@
 # Lead images (original)
 ./lead_pics
 */lead_pics/*
+./lead_pics/**
 
 # Environment
 .env
 *.env
 !.env.example
+.venv 
+*.venv/
 
 # Output files
 output/

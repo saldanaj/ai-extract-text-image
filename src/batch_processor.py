@@ -26,7 +26,7 @@ class BatchProcessor:
     ):
         self.client = client
         self.model_name = model_name
-        self.semaphore = Semaphore(max_concurrent)
+        self.max_concurrent = max_concurrent
 
     def encode_image(self, image_path: Path) -> str:
         """Encode image to base64 string
@@ -96,16 +96,17 @@ Be thorough and accurate in your extraction."""
 
         return response.choices[0].message.parsed
 
-    async def process_single_image(self, image_path: Path) -> Dict:
+    async def process_single_image(self, image_path: Path, semaphore: Semaphore) -> Dict:
         """Process single image asynchronously
 
         Args:
             image_path: Path to JPEG image
+            semaphore: Asyncio semaphore for concurrency control
 
         Returns:
             Dictionary with status and extracted data or error
         """
-        async with self.semaphore:
+        async with semaphore:
             try:
                 # Run extraction in thread pool
                 result = await asyncio.to_thread(
@@ -141,7 +142,10 @@ Be thorough and accurate in your extraction."""
         Returns:
             List of dictionaries with extraction results
         """
-        tasks = [self.process_single_image(path) for path in image_paths]
+        # Create semaphore inside async context (Python 3.9 requirement)
+        semaphore = Semaphore(self.max_concurrent)
+
+        tasks = [self.process_single_image(path, semaphore) for path in image_paths]
         results = await tqdm_asyncio.gather(
             *tasks,
             desc="Extracting contact data",
