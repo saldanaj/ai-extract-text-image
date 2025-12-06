@@ -32,3 +32,4 @@ pytest-mock>=3.12.0
 
 # Type checking (development)
 mypy>=1.8.0
+types-aiohttp>=3.8.0
